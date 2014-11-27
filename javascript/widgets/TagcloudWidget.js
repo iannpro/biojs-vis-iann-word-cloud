@@ -21,10 +21,78 @@
 
 			var self = this;
 			$(this.target).empty();
-			for (var i = 0, l = objectedItems.length; i < l; i++) {
+
+			var jWord = [];
+			var jCount = [];
+
+			for (var i = 1, l = objectedItems.length; i < l; i++) {
 				var facet = objectedItems[i].facet;
-				$(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
+				
+				if(this.target=="#provider"){
+				console.log("this.target=="+this.target);
+				console.log("facet="+facet);
+				console.log("count="+objectedItems[i].count);
+
+				jWord.push(facet);
+				jCount.push(objectedItems[i].count);
+				}
+				//$(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
 			}
+
+
+			//
+		if(this.target=="#provider"){
+
+			console.log("AFTER objects legnth="+objectedItems.length);
+
+			console.log("AFTER words lenght="+jWord.length);
+
+			console.log("AFTER words="+jWord.toString());
+
+
+			var fill = d3.scale.category20();
+
+		 	d3.layout.cloud().size([300, 300])
+		      .words(d3.zip(jWord, jCount).map(function(d) {
+  				console.log("here="+d);
+  				return {text: d[0], size: d[1]};
+				}))
+		      .padding(5)
+		      //.rotate(function() { return ~~(Math.random() * 2) * 90; })
+		      .font("Impact")
+		      .fontSize(function(d) { return d.size; })
+		      .on("end", draw)
+		      .start();
+
+
+		   console.log("idclass=="+this.target);
+		      
+		  function draw(words) {
+		    d3.select("#provider").append("svg")
+		        .attr("width", 500)
+		        .attr("height", 500)
+		      .append("g")
+		        .attr("transform", "translate(150,150)")
+		      .selectAll("text")
+		        .data(words)
+		      .enter().append("text")
+		        .style("font-size", function(d) { return d.size + "px"; })
+		        .style("font-family", "Impact")
+		        .style("fill", function(d, i) { return fill(i); })
+		        .attr("text-anchor", "middle")
+		        .attr("transform", function(d) {
+		          return "translate(" + [d.x, d.y] +")";//+ ")rotate(" + d.rotate + ")";
+		        })
+		        .text(function(d) { return d.text; });
+		  }
+
+		}
+			//
+
+
+
+
+
 		}
 		
 	});
