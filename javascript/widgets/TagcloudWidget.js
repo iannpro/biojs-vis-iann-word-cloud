@@ -14,6 +14,7 @@
 					maxCount = count;
 				}
 				objectedItems.push({ facet: facet, count: count });
+
 			}
 			objectedItems.sort(function (a, b) {
 				return a.facet < b.facet ? -1 : 1;
@@ -24,30 +25,31 @@
 
 			var jWord = [];
 			var jCount = [];
+			var category = [];
+			category.push(this.target);
 
 			for (var i = 1, l = objectedItems.length; i < l; i++) {
 				var facet = objectedItems[i].facet;
 				
-				if(this.target=="#provider"){
+			
 				console.log("this.target=="+this.target);
 				console.log("facet="+facet);
 				console.log("count="+objectedItems[i].count);
 
 				jWord.push(facet);
 				jCount.push(objectedItems[i].count);
-				}
-				//$(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
+				
+
+			
+								//$(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
+					
 			}
-
-
-			//
-		if(this.target=="#provider"){
-
 			console.log("AFTER objects legnth="+objectedItems.length);
 
 			console.log("AFTER words lenght="+jWord.length);
 
 			console.log("AFTER words="+jWord.toString());
+			
 
 
 			var fill = d3.scale.category20();
@@ -68,7 +70,9 @@
 		   console.log("idclass=="+this.target);
 		      
 		  function draw(words) {
-		    d3.select("#provider").append("svg")
+		  	//console.log("idvinod=="+this.target);
+		  	console.log("AFTER category ="+category.toString());
+		    d3.select(category.toString()).append("svg")
 		        .attr("width", 500)
 		        .attr("height", 500)
 		      .append("g")
@@ -86,8 +90,13 @@
 		        .text(function(d) { return d.text; });
 		  }
 
-		}
+		
+			
+
+
 			//
+
+			
 
 
 
