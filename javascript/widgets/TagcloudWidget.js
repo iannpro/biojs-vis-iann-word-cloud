@@ -28,12 +28,14 @@
 			var category = [];
 			category.push(this.target);
 
+			var wordScale = d3.scale.linear().domain([0,75]).range([10,170]);
+
 			for (var i = 1, l = objectedItems.length; i < l; i++) {
 				var facet = objectedItems[i].facet;
 				
 			
-				console.log("this.target=="+this.target);
-				console.log("facet="+facet);
+				//console.log("this.target=="+this.target);
+				//console.log("facet="+facet);
 				console.log("count="+objectedItems[i].count);
 
 				jWord.push(facet);
@@ -44,39 +46,40 @@
 								//$(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
 					
 			}
-			console.log("AFTER objects legnth="+objectedItems.length);
+			//console.log("AFTER objects legnth="+objectedItems.length);
 
-			console.log("AFTER words lenght="+jWord.length);
+			//console.log("AFTER words lenght="+jWord.length);
 
-			console.log("AFTER words="+jWord.toString());
+			//console.log("AFTER words="+jWord.toString());
 			
 
 
 			var fill = d3.scale.category20();
 
-		 	d3.layout.cloud().size([300, 300])
+		 	d3.layout.cloud().size([400, 400])
 		      .words(d3.zip(jWord, jCount).map(function(d) {
-  				console.log("here="+d);
+  				//console.log("here="+d);
   				return {text: d[0], size: d[1]};
 				}))
-		      .padding(5)
+		      .padding(2)
 		      //.rotate(function() { return ~~(Math.random() * 2) * 90; })
 		      .font("Impact")
-		      .fontSize(function(d) { return d.size; })
+		      .fontSize(function(d) { return wordScale(d.size); /*return d.size;*/ })
+		      .rotate(function() { return ~~(Math.random() * 2) * 90; })
 		      .on("end", draw)
 		      .start();
 
 
-		   console.log("idclass=="+this.target);
+		   //console.log("idclass=="+this.target);
 		      
 		  function draw(words) {
 		  	//console.log("idvinod=="+this.target);
-		  	console.log("AFTER category ="+category.toString());
+		  	//console.log("AFTER category ="+category.toString());
 		    d3.select(category.toString()).append("svg")
-		        .attr("width", 500)
-		        .attr("height", 500)
+		        .attr("width", 400)
+		        .attr("height", 400)
 		      .append("g")
-		        .attr("transform", "translate(150,150)")
+		        .attr("transform", "translate(200,200)")
 		      .selectAll("text")
 		        .data(words)
 		      .enter().append("text")
@@ -84,8 +87,10 @@
 		        .style("font-family", "Impact")
 		        .style("fill", function(d, i) { return fill(i); })
 		        .attr("text-anchor", "middle")
+		        .transition()
+            	.duration(1000)
 		        .attr("transform", function(d) {
-		          return "translate(" + [d.x, d.y] +")";//+ ")rotate(" + d.rotate + ")";
+		          return "translate(" + [d.x, d.y] +")";+ ")rotate(" + d.rotate + ")";
 		        })
 		        .text(function(d) { return d.text; });
 		  }
