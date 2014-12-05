@@ -34,18 +34,7 @@
         var facet = objectedItems[i].facet;
         
         
-        //console.log("this.target=="+this.target);
-        console.log("maxCount="+maxCount);
-        if(objectedItems[i].count <= 10)
-         { objectedItems[i].count = 1;}
-       else if(objectedItems[i].count > 10 && objectedItems[i].count <= 20)
-         { objectedItems[i].count = 2;}
-       else if(objectedItems[i].count > 20 && objectedItems[i].count <= 30)
-         { objectedItems[i].count = 3;}
-       else if(objectedItems[i].count > 30 && objectedItems[i].count <= 40)
-         { objectedItems[i].count = 4;}
-        else if(objectedItems[i].count > 40 && objectedItems[i].count <= 200)
-         { objectedItems[i].count = 5;}
+      
 
         console.log("count="+objectedItems[i].count);
 
@@ -72,14 +61,14 @@
 
            var fill = d3.scale.category20();
 
-      d3.layout.cloud().size([300, 300])
+      d3.layout.cloud().size([250, 250])
       
   .words(d3.zip(jWord, jCount).map(function(d) {
          // console.log("here="+d);
           return {text: d[0], size: 10 + d[1]};
         }))
   
-      .padding(5)
+      .padding(3)
      //.rotate(function() { return ~~(Math.random() * 2) * 90; })
    .rotate(function(){return 0})
       .font("Impact")
@@ -89,10 +78,10 @@
 
 function draw(words) {
     d3.select(category.toString()).append("svg")
-        .attr("width", 300)
-        .attr("height", 300)
+        .attr("width", 250)
+        .attr("height", 250)
       .append("g")
-        .attr("transform", "translate(150,150)")
+        .attr("transform", "translate(125,125)")
       .selectAll("text")
         .data(words)
       .enter().append("text")
